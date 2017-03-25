@@ -1,0 +1,146 @@
+<html>
+
+<script>
+var blink_speed = 1000; // every 1000 == 1 second, adjust to suit
+var t = setInterval(function () {
+    var ele = document.getElementById('blink');
+    ele.style.visibility = (ele.style.visibility == 'hidden' ? '' : 'hidden');
+}, blink_speed);
+</script>
+
+<body>
+
+<h1 id='blink'><font color=red>KidsCanCode</font></h1>
+
+<input id="input" size="10"> = <input id="result" size="4">
+<br>
+<button onclick='input("1")'>1</button>  <button onclick='input("2")'>2</button>  <button onclick='input("3")'>3</button> <button onclick='input("-")'>-</button> <br>
+<button onclick='input("4")''>4</button>  <button onclick='input("5")'>5</button>  <button onclick='input("6")'>6</button> <button onclick='input("x")'>x</button><br>
+<button onclick='input("7")'>7</button>  <button onclick='input("8")'>8</button>  <button onclick='input("9")'>9</button> <button onclick='input("/")'>/</button><br>
+<button onclick='input("0")'>0</button> <button onclick='input("+")'>+</button> <button onclick='calculate()'>=</button> <button onclick='clear_all()'>Clear</button>
+
+
+<script>
+
+calculation_type = 0;
+window.localStorage.setItem("current_input1",'');
+window.localStorage.setItem("current_input2",'');
+window.localStorage.setItem("calculation_type", '');
+
+function input(data){
+
+ if(data == 'x' || data == '+' || data == '/' || data == '-'){
+
+    window.localStorage.setItem("calculation_type", data);
+    calculation_type = 1;
+    current_input = window.localStorage.getItem("current_input1");
+   data = current_input + data; 
+
+ }
+ else{
+  if(calculation_type == 0){
+
+   current_input = window.localStorage.getItem("current_input1");
+   if(current_input != ''){
+     data = current_input + data;
+   }
+   else{
+    data = data;
+   } 
+   window.localStorage.setItem("current_input1",data);
+  }
+  else{
+    current_input = window.localStorage.getItem("current_input2");
+
+    data = current_input + data; 
+    window.localStorage.setItem("current_input2",data);
+    
+  }
+
+ }
+
+ input1 = window.localStorage.getItem("current_input1");
+ input2 = window.localStorage.getItem("current_input2");
+ type = window.localStorage.getItem("calculation_type");
+
+ document.getElementById("input").value = input1 + type + input2;
+
+
+}
+
+function clear_all(){
+  window.localStorage.setItem("current_input1",'');
+  window.localStorage.setItem("current_input2",'');
+  window.localStorage.setItem("calculation_type", '');
+   document.getElementById("input").value = '';
+
+}
+
+function calculate(){
+
+  type = window.localStorage.getItem("calculation_type");
+
+  a = window.localStorage.getItem("current_input1");
+  b = window.localStorage.getItem("current_input2");
+  if(type == '+'){
+    
+    addition(a,b);
+  }
+  else if(type == 'x'){
+    multi(a,b);
+  }
+  else if(type == '-'){
+    substract(a,b);
+  }
+  else if(type == '/'){
+    division(a,b)
+  }
+
+}
+
+function init(){
+  calculation_type = 0;
+  window.localStorage.setItem("current_input1",'');
+  window.localStorage.setItem("current_input2",'');
+  window.localStorage.setItem("calculation_type", '');
+}
+
+function addition(a,b){
+
+  c = parseInt(a) + parseInt(b)
+
+  document.getElementById("result").value = c;
+ 
+  init();
+}
+
+function substract(a,b){
+
+  c = parseInt(a) - parseInt(b)
+
+  document.getElementById("result").value = c;
+  init();
+
+}
+
+function multi(a,b){
+
+  c = parseInt(a) * parseInt(b)
+
+  document.getElementById("result").value = c;
+  init();
+}
+
+function division(a,b){
+
+  c = parseInt(a) / parseInt(b)
+
+  document.getElementById("result").value = c;
+
+  init();
+
+}
+
+</script>
+</body>
+</html>
